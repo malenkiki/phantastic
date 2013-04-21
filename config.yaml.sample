@@ -1,0 +1,17 @@
+name: Your site’s title
+base: 'http://www.your-site-base-url.com/'
+meta: some meta, keywords, for, whole site, espaces allowed
+timezone: 'Europe/Paris'
+server: True|False|127.0.0.1:8080
+categories:
+    one-cat-dir: Name of this category
+    another-cat-dir: Name for this other one
+permalink:
+    tag: '/tags/:title/'
+    category: '/categories/:title/'
+    post: '/:categories/:year/:month/:day/:title.html'
+dir:
+    template: 'template/'
+    post: 'post/'
+    src: 'src/'
+    dest: 'dest/'

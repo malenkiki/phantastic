@@ -1,0 +1,13 @@
+    * Support des categories/sous categories
+    * Support du multilinguisme
+    * Utiliser des systèmes de template optionnels
+      (http://www.greaterscope.net/projects/Vemplator
+      http://www.h2o-template.org/ http://www.raintpl.com/Download/)
+    * Coder un système permettant d’avoir une réduction de la taille du code généré
+    * Inclure un système de suggestion d’article
+    * Définir un système de log à la fois pour le résultat du rendu comme pour
+      l’intéraction avec l’utilisateur.
+    * Avoir un système permettant de créer un fichier config de base que
+      l’utilisateur peut modifier facilement ensuite.
+    * Avoir un thème de base pour démarer.
+    * Adapter le tout pour fontionner avec Composer

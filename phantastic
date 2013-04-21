@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+
+<?php
+/*
+ * This file is part of Phantastic.
+ *
+ * Phantastic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Phantastic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Phantastic.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+$str_root = __DIR__;
+
+include($str_root . '/lib/phpmarkdown/markdown.php');
+
+include_once($str_root . '/class/Permalink.php');
+include_once($str_root . '/class/Path.php');
+include_once($str_root . '/class/Parser.php');
+include_once($str_root . '/class/Config.php');
+include_once($str_root . '/class/File.php');
+include_once($str_root . '/class/Tag.php');
+include_once($str_root . '/class/Category.php');
+include_once($str_root . '/class/History.php');
+include_once($str_root . '/class/Template.php');
+include_once($str_root . '/class/Generator.php');
+include_once($str_root . '/class/Options.php');
+include_once($str_root . '/class/Arg.php');
+include_once($str_root . '/class/Server.php');
+include_once($str_root . '/class/Sample.php');
+include_once($str_root . '/class/TfIdf.php');
+include_once($str_root . '/class/App.php');
+
+Malenki\Phantastic\Path::setAppRoot($str_root);
+
+$phantastic = new Malenki\Phantastic\App();
+$phantastic->setOpt();
+$phantastic->getOpt();
+$phantastic->run();
+
+
+

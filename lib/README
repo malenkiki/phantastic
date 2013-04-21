@@ -1,0 +1,7 @@
+LIB PATH
+========
+
+This directory is very important because it contains at PHP Markdown and YAML Symfony libraries.
+
+Alternate template engines like Rain PHP, h2o and maybe other could be here in the futur.
+
