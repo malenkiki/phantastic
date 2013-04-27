@@ -25,17 +25,6 @@ class Parser
     protected $str_content = null;
 
     /**
-     * Détermine si la fonction yaml_parse est dispoible 
-     * 
-     * @access protected
-     * @return boolean
-     */
-    protected static function hasPeclParser()
-    {
-        return(function_exists('yaml_parse'));
-    }
-
-    /**
      * Interprète un contenu YAML sous forme de chaîne de caractères ou de 
      * fichier.
      * 
@@ -53,34 +42,20 @@ class Parser
      */
     public static function parseYaml($str, $is_file = false)
     {
-        if(self::hasPeclParser())
+        //TODO: Tester si la lib est bien installée, sinon fatal error.
+        //TODO: Inclure tous les fichiers de la lib
+        include_once(Path::getLib('yaml/Parser.php'));
+        include_once(Path::getLib('yaml/Inline.php'));
+        include_once(Path::getLib('yaml/Unescaper.php'));
+        $yaml = new \Symfony\Component\Yaml\Parser();
+
+        if($is_file)
         {
-            if($is_file)
-            {
-                return yaml_parse_file($str);
-            }
-            else
-            {
-                return yaml_parse($str);
-            }
+            return $yaml->parse(file_get_contents($str));
         }
         else
         {
-            //TODO: Tester si la lib est bien installée, sinon fatal error.
-            //TODO: Inclure tous les fichiers de la lib
-            include_once(Path::getLib('yaml/Parser.php'));
-            include_once(Path::getLib('yaml/Inline.php'));
-            include_once(Path::getLib('yaml/Unescaper.php'));
-            $yaml = new \Symfony\Component\Yaml\Parser();
-
-            if($is_file)
-            {
-                return $yaml->parse(file_get_contents($str));
-            }
-            else
-            {
-                return $yaml->parse($str);
-            }
+            return $yaml->parse($str);
         }
     }
     
