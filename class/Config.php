@@ -158,19 +158,19 @@ class Config
             if(isset(self::$mixed_yaml->permalink['post']))
                 $this->setPermalinkPost(self::$mixed_yaml->permalink['post']);
 
-            if(self::$mixed_yaml->dir['post'])
+            if(isset(self::$mixed_yaml->dir['post']))
                 $this->setPostDir(self::$mixed_yaml->dir['post']);
 
-            if(self::$mixed_yaml->dir['sample'])
+            if(isset(self::$mixed_yaml->dir['sample']))
                 $this->setSampleDir(self::$mixed_yaml->dir['sample']);
 
-            if(self::$mixed_yaml->dir['src'])
+            if(isset(self::$mixed_yaml->dir['src']))
                 $this->setSrcDir(self::$mixed_yaml->dir['src']);
 
-            if(self::$mixed_yaml->dir['dest'])
+            if(isset(self::$mixed_yaml->dir['dest']))
                 $this->setDestDir(self::$mixed_yaml->dir['dest']);
 
-            if(self::$mixed_yaml->dir['template'])
+            if(isset(self::$mixed_yaml->dir['template']))
                 $this->setTemplateDir(self::$mixed_yaml->dir['template']);
             
             if(isset(self::$mixed_yaml->author))
