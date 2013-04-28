@@ -76,8 +76,10 @@ class Sample
                 $this->str_name
             )
         );
+        
+        $markdown = new \dflydev\markdown\MarkdownExtraParser();
 
-        $this->str_content = Markdown($str_text);
+        $this->str_content = $markdown->transformMarkdown($str_text);
     }
 
     

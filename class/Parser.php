@@ -42,11 +42,6 @@ class Parser
      */
     public static function parseYaml($str, $is_file = false)
     {
-        //TODO: Tester si la lib est bien installée, sinon fatal error.
-        //TODO: Inclure tous les fichiers de la lib
-        include_once(Path::getLib('yaml/Parser.php'));
-        include_once(Path::getLib('yaml/Inline.php'));
-        include_once(Path::getLib('yaml/Unescaper.php'));
         $yaml = new \Symfony\Component\Yaml\Parser();
 
         if($is_file)
@@ -92,7 +87,8 @@ class Parser
             $str_yaml = implode("\n", array_slice($arr_lines, 1, $int_length_header));
             $str_content = implode("\n", array_slice($arr_lines, $int_length_header + 2));
             $this->arr_header = self::parseYaml($str_yaml);
-            $this->str_content = Markdown($str_content);
+            $markdown = new \dflydev\markdown\MarkdownExtraParser();
+            $this->str_content = $markdown->transformMarkdown($str_content);
         }
     }
 

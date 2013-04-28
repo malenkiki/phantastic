@@ -52,7 +52,7 @@ class Path
     public static function getLib($str_lib_path = null)
     {
         $str_out = self::cleanPath(
-            self::getAppRoot() . 'lib' . self::getDirectorySeparator()
+            self::getAppRoot() . 'vendor' . self::getDirectorySeparator()
         );
 
         if(is_string($str_lib_path) && strlen($str_lib_path))

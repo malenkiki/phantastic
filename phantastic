@@ -21,7 +21,15 @@
 
 $str_root = __DIR__;
 
-include($str_root . '/lib/phpmarkdown/markdown.php');
+// Include Markdown lib
+include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/IMarkdownParser.php');
+include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/MarkdownParser.php');
+include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/MarkdownExtraParser.php');
+
+// Include Yaml lib
+include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php');
+include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php');
+include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php');
 
 include_once($str_root . '/class/Permalink.php');
 include_once($str_root . '/class/Path.php');
