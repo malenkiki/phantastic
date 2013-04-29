@@ -68,6 +68,8 @@ class Config
 
     protected $int_related_posts = 0;
 
+    protected $bool_create_sitemap = false;
+
     protected $bool_disable_tags = false;
     
     protected $bool_disable_categories = false;
@@ -176,6 +178,9 @@ class Config
             if(isset(self::$mixed_yaml->author))
                 $this->setAuthor(self::$mixed_yaml->author);
             
+            if(isset(self::$mixed_yaml->sitemap))
+                $this->setSitemap();
+
             if(isset(self::$mixed_yaml->disabletags))
                 $this->setDisableTags();
             
@@ -209,6 +214,11 @@ class Config
     public function setAuthor($str)
     {
         $this->str_author = $str;
+    }
+
+    public function setSitemap()
+    {
+        $this->bool_create_sitemap = true;
     }
 
     public function setDisableTags()

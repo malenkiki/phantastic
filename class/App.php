@@ -110,6 +110,13 @@ class App
             ->setVarHelp('N')
         );
         
+
+        Options::add(
+            Arg::createSwitch('sitemap')
+            ->setLong('sitemap')
+            ->setHelp('Génère un sitemap XML du site.')
+        );
+
         
         Options::add(
             Arg::createSwitch('disabletags')
@@ -189,6 +196,11 @@ class App
                 Config::getInstance()->setServer($opt->get('language'));
             }
             
+            if(Options::getInstance()->has('sitemap'))
+            {
+                Config::getInstance()->setSitemap();
+            }
+
             if(Options::getInstance()->has('disabletags'))
             {
                 Config::getInstance()->setDisableTags();
