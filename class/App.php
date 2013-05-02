@@ -260,7 +260,7 @@ class App
         }
         
         $g->render();
-        
+
         if(!Tag::isEmpty())
         {
             $g->renderTagPages();

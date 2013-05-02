@@ -143,8 +143,8 @@ class Sitemap implements \Countable
 
             $dom->appendChild($urlset);
 
-            //TODO
-            //echo $dom->saveXML();
+            $dom->formatOutput = true;
+            $dom->save(Path::getDest() . self::FILE_NAME);
             //TODO robots.txt
         }
     }
