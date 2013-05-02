@@ -344,8 +344,33 @@ class Generator
         $arr_out['date'] = $f->getDate();
         $arr_out['date_rss'] = $f->getDateRss();
         $arr_out['date_atom'] = $f->getDateAtom();
-        $arr_out['canonical'] = preg_replace('@/+$@', '', Config::getInstance()->getBase()) . $f->getUrl();
+
+        $str_canonical = preg_replace(
+            '@/+$@', '', Config::getInstance()->getBase()
+        );
+        $str_canonical .= $f->getUrl();
+
+        $arr_out['canonical'] = $str_canonical;
         $arr_out['type'] = $f->isPost() ? 'post' : 'page';
+
+        $bool_to_sitemap = true;
+
+        if(isset($f->getHeader()->sitemap) && !$f->getHeader()->sitemap)
+        {
+            $bool_to_sitemap = false;
+        }
+
+        if(Config::getInstance()->hasSitemap() && $bool_to_sitemap)
+        {
+            if($f->isPost())
+            {
+                Sitemap::getInstance()->addPost($str_canonical, $f->getDate());
+            }
+            else
+            {
+                Sitemap::getInstance()->addPage($str_canonical, $f->getDate());
+            }
+        }
 
         // TODO: prendre en compte next et prev pour éviter les répétitions…
         if($f->isPost() && Config::getInstance()->getRelatedPosts())

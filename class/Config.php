@@ -506,4 +506,9 @@ class Config
     {
         return $this->obj_dir;
     }
+
+    public function hasSitemap()
+    {
+        return $this->bool_create_sitemap;
+    }
 }

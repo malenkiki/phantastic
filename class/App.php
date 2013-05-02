@@ -271,6 +271,11 @@ class App
             $g->renderCategoryPages();
         }
 
+        if(count(Sitemap::getInstance()))
+        {
+            Sitemap::getInstance()->render();
+        }
+
 
         //debug, test…
         //var_dump(History::getLast());

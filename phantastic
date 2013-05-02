@@ -45,6 +45,7 @@ include_once($str_root . '/class/Options.php');
 include_once($str_root . '/class/Arg.php');
 include_once($str_root . '/class/Server.php');
 include_once($str_root . '/class/Sample.php');
+include_once($str_root . '/class/Sitemap.php');
 include_once($str_root . '/class/TfIdf.php');
 include_once($str_root . '/class/App.php');
 
