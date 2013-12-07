@@ -4,7 +4,7 @@
     "description": "A static blog generator like Jekyll in Ruby world but with tags, categories, blocs in native.",
     "keywords": ["blog", "generator", "markdown"],
     "homepage": "https://github.com/malenkiki/phantastic",
-    "license": "GPLv3",
+    "license": "MIT",
     "authors": [
         {
             "name": "Michel Petit",
