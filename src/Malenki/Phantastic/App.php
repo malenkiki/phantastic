@@ -24,9 +24,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace Malenki\Phantastic;
 
-use Malenki\Opt\Options as Options;
-use Malenki\Opt\Arg as Arg;
-
 
 /**
  * Le moteur de l’application.
@@ -47,98 +44,92 @@ class App
      */
     public function setOpt()
     {
+        $opt = Malenki\Argile\Options::getInstance();
+        $opt->flexible();
+        $opt->addUsage('-s SOURCE_DIR -d DEST_DIR [--server]');
+        $opt->addUsage('-s SOURCE_DIR -d DEST_DIR -b BASE_URL [--server]');
+        $opt->addUsage('-c [CONFIG_FILE] [--server]');
+        $opt->description('A static blog generator like Jekyll in Ruby world but with tags, categories, blocs in native.');
+        $opt->version('Phantastic version 0.3');
 
-        Options::add(
-            Arg::createValue('source')
-            ->setShort('s:')
-            ->setLong('source:')
-            ->setHelp('Le dossier contenant les fichiers à traiter.')
-            ->setVarHelp('DIR')
-        );
+        $opt->newValue('source')
+            ->required()
+            ->short('s')
+            ->long('source')
+            ->help('Le dossier contenant les fichiers à traiter.', 'DIR')
+        ;
 
-        Options::add(
-            Arg::createValue('destination')
-            ->setShort('d:')
-            ->setLong('destination:')
-            ->setHelp('Le dossier dans lequel seront créés les fichiers.')
-            ->setVarHelp('DIR')
-        );
+        $opt->newValue('destination')
+            ->required()
+            ->short('d')
+            ->long('destination')
+            ->help('Le dossier dans lequel seront créés les fichiers.', 'DIR')
+        ;
 
-        Options::add(
-            Arg::createValue('baseurl')
-            ->setShort('b:')
-            ->setLong('baseurl:')
-            ->setHelp('URL de base utilisé pour le site généré. Cette valeur n’est pas utilisée si l’option « server » est choisie.')
-            ->setVarHelp('BASE_URL')
-        );
+        $opt->newValue('baseurl')
+            ->required()
+            ->short('b')
+            ->long('baseurl')
+            ->help('URL de base utilisé pour le site généré. Cette valeur n’est pas utilisée si l’option « server » est choisie.', 'URL')
+        ;
 
-        Options::add(
-            Arg::createValue('language')
-            ->setShort('l:')
-            ->setLong('language:')
-            ->setHelp('Langue principale de rédaction du site. La langue doit être précisée au format 2 lettre, exemple : « FR » pour français, « EN » pour anglais, etc.')
-            ->setVarHelp('LANG')
-        );
+        $opt->newValue('language')
+            ->required()
+            ->short('l')
+            ->long('language')
+            ->help('Langue principale de rédaction du site. La langue doit être précisée au format 2 lettres, exemple : « FR » pour français, « EN » pour anglais, etc.', 'LANG')
+        ;
 
-        Options::add(
-            Arg::createValue('config')
-            ->setShort('c::')
-            ->setLong('config::')
-            ->setHelp('Fichier de configuration contenant différentes valeurs sous forme d’un fichier YAML. Si FICHIER n’est pas spécifié, alors un fichier « config.yaml » sera lu par défaut, mais s’il n’existe pas, déclenchera une erreur.')
-            ->setVarHelp('FICHIER')
-        );
-
-        Options::add(
-            Arg::createSwitch('minimize')
-            ->setLong('minimize')
-            ->setHelp('Réduit la taille des fichiers générés.')
-        );
-
-        Options::add(
-            Arg::createValue('timezone')
-            ->setLong('timezone:')
-            //TODO: Être plus bavard là…
-            ->setHelp('Fuseau horaire TZ à utiliser pour les dates, comme par exemple « Europe/Paris ». La valeur utilisée par défaut est « UTC ».')
-            ->setVarHelp('TZ')
-        );
-        
-        Options::add(
-            Arg::createValue('server')
-            ->setLong('server::')
-            ->setHelp('Fait un rendu et lance un serveur web de test à l’adresse ADR:PORT. Si l’adresse n’est pas précisée, alors « localhost:8080 » sera prise. Si l’option « baseurl » est précisée, elle sera ignorée.')
-            ->setVarHelp('ADR:PORT')
-        );
-
-        Options::add(
-            Arg::createValue('related_posts')
-            ->setLong('related-posts:')
-            ->setHelp('Attribue pour chaque post N posts en relation avec son contenu. Ceci peut être gourmand en calcul. Par défaut à zéro si vous ne lui donnez pas une valeur positive.')
-            ->setVarHelp('N')
-        );
-        
-
-        Options::add(
-            Arg::createSwitch('sitemap')
-            ->setLong('sitemap')
-            ->setHelp('Génère un sitemap XML du site.')
-        );
+        $opt->newValue('config')
+            ->setShort('c')
+            ->setLong('config')
+            ->setHelp('Fichier de configuration contenant différentes valeurs sous forme d’un fichier YAML. Si FICHIER n’est pas spécifié, alors un fichier « config.yaml » sera lu par défaut, mais s’il n’existe pas, déclenchera une erreur.', 'FILE')
+        ;
 
         
-        Options::add(
-            Arg::createSwitch('disabletags')
-            ->setLong('disable-tags')
-            ->setHelp('Désactive le rendu des tags, que ce soit leurs pages dédiées ou le nuage de tags.')
-        );
+        $opt->newSwitch('minimize')
+            ->long('minimize')
+            ->help('Réduit la taille des fichiers générés.')
+        ;
+        
 
-        Options::add(
-            Arg::createSwitch('disablecategories')
-            ->setLong('disable-categories')
-            ->setHelp('Désactive le rendu des catégories.')
-        );
+        $opt->newValue('timezone')
+            ->long('timezone')
+            ->help('Fuseau horaire TZ à utiliser pour les dates, comme par exemple « Europe/Paris ». La valeur utilisée par défaut est « UTC ».', 'TZ')
+        ;
+        
+        $opt->newValue('server')
+            ->long('server')
+            ->help('Fait un rendu et lance un serveur web de test à l’adresse ADR:PORT. Si l’adresse n’est pas précisée, alors « localhost:8080 » sera prise. Si l’option « baseurl » est précisée, elle sera ignorée.', 'ADR:PORT')
+        ;
+
+        $opt->newValue('related_posts')
+            ->long('related-posts')
+            ->help('Attribue pour chaque post N posts en relation avec son contenu. Ceci peut être gourmand en calcul. Par défaut à zéro si vous ne lui donnez pas une valeur positive.', 'N')
+        ;
+        
+
+        $opt->newSwitch('sitemap')
+            ->long('sitemap')
+            ->help('Génère un sitemap XML du site.')
+        ;
+
+        
+        $opt->newSwitch('disabletags')
+            ->long('disable-tags')
+            ->help('Désactive le rendu des tags, que ce soit leurs pages dédiées ou le nuage de tags.')
+        ;
+
+        $opt->newSwitch('disablecategories')
+            ->long('disable-categories')
+            ->help('Désactive le rendu des catégories.')
+        ;
 
         Options::getInstance()->setHelp('Affiche ce message d’aide.');
         Options::getInstance()->setVersion('Affiche la version de Phantastic.');
     }
+
+
 
     /**
      * Récupère les options passées au programme et met en place la 
@@ -150,26 +141,18 @@ class App
     public function getOpt()
     {
         // OK, on interpète ce qu’on a en ligne de commande et on détermine quoi faire…
-        Options::getInstance()->parse();
+        $opt = Malenki\Argile\Options::getInstance();
+        $opt->parse();
 
-        if(Options::getInstance()->has('version'))
-        {
-            printf("\nPHANTASTIC Version 0.1\n\n");
-            exit();
-        }
 
-        if(Options::getInstance()->has('help'))
-        {
-            Options::getInstance()->displayHelp();
-        }
 
-        if(Options::getInstance()->has('config'))
+        if($opt->has('config'))
         {
             $str_config_file = 'config.yaml';
 
-            if(Options::getInstance()->get('config'))
+            if($opt->get('config'))
             {
-                $str_config_file = Options::getInstance()->get('config');
+                $str_config_file = $opt->get('config');
             }
 
 
@@ -181,38 +164,38 @@ class App
         }
         else
         {
-            if(Options::getInstance()->has('timezone'))
+            if($opt->has('timezone'))
             {
                 Config::getInstance()->setTimezone($opt->get('timezone'));
             }
             
-            if(Options::getInstance()->has('related_posts'))
+            if($opt->has('related_posts'))
             {
                 Config::getInstance()->setTimezone($opt->get('related_posts'));
             }
             
             
-            if(Options::getInstance()->has('server'))
+            if($opt->has('server'))
             {
                 Config::getInstance()->setServer($opt->get('server'));
             }
             
-            if(Options::getInstance()->has('language'))
+            if($opt->has('language'))
             {
                 Config::getInstance()->setServer($opt->get('language'));
             }
             
-            if(Options::getInstance()->has('sitemap'))
+            if($opt->has('sitemap'))
             {
                 Config::getInstance()->setSitemap();
             }
 
-            if(Options::getInstance()->has('disabletags'))
+            if($opt->has('disabletags'))
             {
                 Config::getInstance()->setDisableTags();
             }
 
-            if(Options::getInstance()->has('disablecats'))
+            if($opt->has('disablecats'))
             {
                 Config::getInstance()->setDisableCategories();
             }

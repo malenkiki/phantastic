@@ -1,5 +1,4 @@
 #!/usr/bin/env php
-
 <?php
 /*
 Copyright (c) 2013 Michel Petit <petit.michel@gmail.com>
@@ -24,38 +23,19 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+namespace Malenki\Phantastic;
 
-$str_root = __DIR__;
+if(!file_exists(__DIR__ . '/vendor/autoload.php'))
+{
+    fwrite(STDERR, 'You must run `composer install` before using Phantastic!');
+    fwrite(STDERR, PHP_EOL);
+    exit(1);
+}
 
-// Include Markdown lib
-include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/IMarkdownParser.php');
-include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/MarkdownParser.php');
-include($str_root . '/vendor/dflydev/markdown/src/dflydev/markdown/MarkdownExtraParser.php');
+include_once __DIR__ . '/vendor/autoload.php';
 
-// Include Yaml lib
-include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php');
-include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php');
-include_once($str_root . '/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php');
 
-include_once($str_root . '/class/Permalink.php');
-include_once($str_root . '/class/Path.php');
-include_once($str_root . '/class/Parser.php');
-include_once($str_root . '/class/Config.php');
-include_once($str_root . '/class/File.php');
-include_once($str_root . '/class/Tag.php');
-include_once($str_root . '/class/Category.php');
-include_once($str_root . '/class/History.php');
-include_once($str_root . '/class/Template.php');
-include_once($str_root . '/class/Generator.php');
-include_once($str_root . '/class/Options.php');
-include_once($str_root . '/class/Arg.php');
-include_once($str_root . '/class/Server.php');
-include_once($str_root . '/class/Sample.php');
-include_once($str_root . '/class/Sitemap.php');
-include_once($str_root . '/class/TfIdf.php');
-include_once($str_root . '/class/App.php');
-
-Malenki\Phantastic\Path::setAppRoot($str_root);
+Path::setAppRoot(__DIR__);
 
 $phantastic = new Malenki\Phantastic\App();
 $phantastic->setOpt();

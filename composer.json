@@ -15,6 +15,12 @@
     "require": {
         "php": ">=5.3.0",
         "symfony/yaml": "v2.2.1",
-        "dflydev/markdown": "v1.0.2"
+        "dflydev/markdown": "v1.0.2",
+        "malenki/argile": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Malenki\\Phantastic": "src/"
+        }
     }
 }
