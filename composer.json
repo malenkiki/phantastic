@@ -16,7 +16,7 @@
         "php": ">=5.3.0",
         "symfony/yaml": "v2.2.1",
         "dflydev/markdown": "v1.0.2",
-        "malenki/argile": "*"
+        "malenki/argile": "2.5"
     },
     "autoload": {
         "psr-0": {

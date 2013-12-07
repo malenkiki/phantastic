@@ -44,7 +44,7 @@ class App
      */
     public function setOpt()
     {
-        $opt = Malenki\Argile\Options::getInstance();
+        $opt = \Malenki\Argile\Options::getInstance();
         $opt->flexible();
         $opt->addUsage('-s SOURCE_DIR -d DEST_DIR [--server]');
         $opt->addUsage('-s SOURCE_DIR -d DEST_DIR -b BASE_URL [--server]');
@@ -81,9 +81,9 @@ class App
         ;
 
         $opt->newValue('config')
-            ->setShort('c')
-            ->setLong('config')
-            ->setHelp('Fichier de configuration contenant différentes valeurs sous forme d’un fichier YAML. Si FICHIER n’est pas spécifié, alors un fichier « config.yaml » sera lu par défaut, mais s’il n’existe pas, déclenchera une erreur.', 'FILE')
+            ->short('c')
+            ->long('config')
+            ->help('Fichier de configuration contenant différentes valeurs sous forme d’un fichier YAML. Si FICHIER n’est pas spécifié, alors un fichier « config.yaml » sera lu par défaut, mais s’il n’existe pas, déclenchera une erreur.', 'FILE')
         ;
 
         
@@ -125,8 +125,6 @@ class App
             ->help('Désactive le rendu des catégories.')
         ;
 
-        Options::getInstance()->setHelp('Affiche ce message d’aide.');
-        Options::getInstance()->setVersion('Affiche la version de Phantastic.');
     }
 
 
@@ -141,7 +139,7 @@ class App
     public function getOpt()
     {
         // OK, on interpète ce qu’on a en ligne de commande et on détermine quoi faire…
-        $opt = Malenki\Argile\Options::getInstance();
+        $opt = \Malenki\Argile\Options::getInstance();
         $opt->parse();
 
 
@@ -213,6 +211,13 @@ class App
      */
     public function run()
     {
+        $opt = \Malenki\Argile\Options::getInstance();
+
+        if($opt->has('help') || $opt->has('version'))
+        {
+            exit(0);
+        }
+
         date_default_timezone_set(Config::getInstance()->getTimezone());
 
         if(Config::getInstance()->getLanguage())

@@ -34,7 +34,7 @@ namespace Malenki\Phantastic;
  */
 class Path
 {
-    const SRC = 'src/'; // chemin par défaut des sources du site
+    const SRC = 'source/'; // chemin par défaut des sources du site
     const DEST = 'out/'; // chemin par défaut des fichiers générés 
     const POST = 'post/'; // chemin relatif à SRC pour les Posts
     const SAMPLE = 'sample/'; // chemin relatif à SRC pour les blocs de texte

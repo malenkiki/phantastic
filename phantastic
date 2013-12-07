@@ -37,7 +37,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 Path::setAppRoot(__DIR__);
 
-$phantastic = new Malenki\Phantastic\App();
+$phantastic = new App();
 $phantastic->setOpt();
 $phantastic->getOpt();
 $phantastic->run();
