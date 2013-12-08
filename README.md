@@ -7,9 +7,9 @@ PHP static blog generator ala Jekyll with tags, categories and blocks in native.
 Before, you must have [composer](http://getcomposer.org/) to install and use **Phantastic**.
 
 You can install **Phantastic** following 3 possible ways:
- - by downloading [archive](https://github.com/malenkiki/phantastic/archive/0.2.tar.gz) of the last stable release. Untar it and then go into the newly created directory to run `composer update`
- - by cloning the git repository `git clone https://github.com/malenkiki/phantastic.git` and then do the same action like seen previously after untar.
- - by using composer into one shot like this: `composer create-project malenki/phantastic your-project-name dev-master`, where `your-project-name` will be the directory to install **Phantastic** and then you cab start to play with it.
+ - by downloading [archive](https://github.com/malenkiki/phantastic/archive/0.2.tar.gz) of the **latest stable release**. Untar it and then go into the newly created directory to run `composer update`
+ - by cloning the git repository `git clone https://github.com/malenkiki/phantastic.git` and then do the same action like seen previously after untar. Unlike previous, you get the `dev-master` branch.
+ - by using composer into one shot like this: `composer create-project malenki/phantastic your-project-name dev-master`, where `your-project-name` will be the directory to install **Phantastic** and then you can start to play with it.
 
 ## How does it work?
 
