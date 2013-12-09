@@ -211,6 +211,10 @@ class App
      */
     public function run()
     {
+        if(phpversion() >= '5.5.0')
+        {
+            cli_set_process_title('fictif');
+        }
         $opt = \Malenki\Argile\Options::getInstance();
 
         if($opt->has('help') || $opt->has('version'))
