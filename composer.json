@@ -21,6 +21,7 @@
         "dflydev/markdown": "v1.0.2",
         "malenki/argile": "2.5"
     },
+    "bin": ["phantastic"],
     "autoload": {
         "psr-0": {
             "Malenki\\Phantastic": "src/"

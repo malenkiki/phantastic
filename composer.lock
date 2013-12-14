@@ -1,0 +1,213 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "40d2db16cf44b7be02735e3e332554d5",
+    "packages": [
+        {
+            "name": "dflydev/markdown",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-markdown.git",
+                "reference": "2a1b3516bd5af6e722b40ae9e1fccd03e1772060"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/2a1b3516bd5af6e722b40ae9e1fccd03e1772060",
+                "reference": "2a1b3516bd5af6e722b40ae9e1fccd03e1772060",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "dflydev\\markdown": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD License"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                },
+                {
+                    "name": "Michel Fortin",
+                    "homepage": "http://michelf.com"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "http://daringfireball.net"
+                }
+            ],
+            "description": "PHP Markdown & Extra",
+            "homepage": "http://github.com/dflydev/dflydev-markdown",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2012-01-16 03:36:37"
+        },
+        {
+            "name": "malenki/argile",
+            "version": "2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/malenkiki/argile.git",
+                "reference": "d6f9ddd5378b856b345cd0d4ad3eb566348090a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/malenkiki/argile/zipball/d6f9ddd5378b856b345cd0d4ad3eb566348090a2",
+                "reference": "d6f9ddd5378b856b345cd0d4ad3eb566348090a2",
+                "shasum": ""
+            },
+            "require": {
+                "malenki/bah": ">=0.9.1",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Malenki\\Argile": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Petit",
+                    "email": "petit.michel@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CLI app now easy when using args!",
+            "homepage": "https://github.com/malenkiki/argile",
+            "keywords": [
+                "arg",
+                "cli",
+                "optget"
+            ],
+            "time": "2013-12-03 22:37:56"
+        },
+        {
+            "name": "malenki/bah",
+            "version": "0.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/malenkiki/bah.git",
+                "reference": "d148f9f57ca1c00c8829c08cc896042a8db08cb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/malenkiki/bah/zipball/d148f9f57ca1c00c8829c08cc896042a8db08cb8",
+                "reference": "d148f9f57ca1c00c8829c08cc896042a8db08cb8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Malenki\\Bah": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Petit",
+                    "email": "petit.michel@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Classes to use in place of array, string, integer PHP primitives",
+            "homepage": "https://github.com/malenkiki/bah",
+            "keywords": [
+                "array",
+                "number",
+                "string"
+            ],
+            "time": "2013-11-03 16:12:29"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.2.1",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab",
+                "reference": "3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-03-23 07:49:54"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": {
+        "php": ">=5.3.0"
+    },
+    "platform-dev": [
+
+    ]
+}
