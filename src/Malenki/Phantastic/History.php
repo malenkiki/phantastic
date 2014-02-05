@@ -75,10 +75,10 @@ class History
 
 
     /**
-     * ID du fichier
+     * File's ID
      * 
      * @access public
-     * @return int
+     * @return integer
      */
     public function getFileId()
     {
@@ -128,15 +128,26 @@ class History
     
     
     
+    /**
+     * Gets next post for given one. 
+     * 
+     * @todo k is integer or date?
+     * @param mixed $k 
+     * @static
+     * @access public
+     * @return void
+     */
     public static function getNextFor($k)
     {
         return self::getPrevNext('next', $k);
     }
 
+
+
     /**
-     * getLast 
+     * Gets n last posts. 
      * 
-     * @param integer $n 
+     * @param integer $n Number of posts
      * @static
      * @access public
      * @return array
@@ -162,8 +173,19 @@ class History
         return $arrProv;
     }
 
-    //TODO: à faire quand je déciderai de distribuer le code, pas urgent 
-    //pour mon cas.
-    public static function getFor($date){}
+    
+    
+    /**
+     * Gets elements for givent date 
+     * 
+     * @todo code this feature.
+     * @param mixed $date 
+     * @static
+     * @access public
+     * @return array
+     */
+    public static function getFor($date)
+    {
+    }
 
 }
