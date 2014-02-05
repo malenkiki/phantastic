@@ -31,8 +31,8 @@ namespace Malenki\Phantastic;
  * Mise en place des paramètre, détection des options choisies par 
  * l’utilisateur, et lancement du processus. 
  * 
- * @copyright 2012 Michel Petit
  * @author Michel Petit <petit.michel@gmail.com> 
+ * @license MIT
  */
 class App
 {
