@@ -26,6 +26,13 @@ namespace Malenki\Phantastic;
 
 use Malenki\Phantastic\Parser as Parser;
 
+/**
+ * File object to have some information about its content and know the type of 
+ * document it is.
+ * 
+ * @author Michel Petit <petit.michel@gmail.com> 
+ * @license MIT
+ */
 class File
 {
     protected static $last_id = 0;
@@ -36,6 +43,15 @@ class File
     protected $obj_head = null;
     protected $str_content = null;
 
+
+
+
+    /**
+     * Reads file's content and parses it to getsome subpart easyly. 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function read()
     {
         $p = new Parser($this->obj_path->getRealPath());
@@ -61,26 +77,66 @@ class File
         $this->read();
     }
 
+
+
+    /**
+     * Checks if current file has a YAML header 
+     * 
+     * @access public
+     * @return boolean
+     */
     public function hasHeader()
     {
         return is_object($this->obj_head);
     }
 
+
+
+    /**
+     * Gets header's information as an object. 
+     * 
+     * @access public
+     * @return \stdClass
+     */
     public function getHeader()
     {
         return $this->obj_head;
     }
 
+
+
+    /**
+     * Gets file's content as a string
+     * 
+     * @access public
+     * @return string
+     */
     public function getContent()
     {
         return $this->str_content;
     }
 
+
+
+    /**
+     * Get generated ID of the current file 
+     * 
+     * @access public
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
 
+
+
+    /**
+     * Checks whether the current file is a post or not. 
+     * 
+     * @access public
+     * @return boolean
+     */
     public function isPost()
     {
         return $this->hasHeader() && preg_match(
@@ -89,13 +145,23 @@ class File
         );
     }
 
+
+
+    /**
+     * Tests if the current file is a page. 
+     * 
+     * @access public
+     * @return boolean
+     */
     public function isPage()
     {
         return ($this->hasHeader() && !$this->isPost());
     }
 
+
+
     /**
-     * Détermine si le fichier est un fichier à interpréter ou non.
+     * Checks if current file is other thing as post or page.
      *
      * @access public
      * @return boolean
@@ -105,6 +171,16 @@ class File
         return(!$this->isPost() && !$this->isPage());
     }
 
+
+
+    /**
+     * Tests whether current file is a sample.
+     *
+     * Samples are pièce of HTML block that can be used where you want into templates. 
+     * 
+     * @access public
+     * @return boolean
+     */
     public function isSample()
     {
         return(
@@ -114,6 +190,14 @@ class File
         );
     }
 
+
+
+    /**
+     * Gets title URL component 
+     * 
+     * @access public
+     * @return string
+     */
     public function getTitleSlug()
     {
         return Permalink::createSlug($this->getHeader()->title);
@@ -121,6 +205,15 @@ class File
 
 
 
+
+    /**
+     * Gets final file's URL.
+     * 
+     * @throw \Exception If an error occurs when building URL.
+     * @param boolean $full By default at False, maust be True if you want full URL (with domain…)
+     * @access public
+     * @return string
+     */
     public function getUrl($full = false)
     {
         if($this->isPost())
@@ -179,11 +272,28 @@ class File
         }
     }
 
+
+
+    /**
+     * Tests whether the current file has a category or not.
+     * 
+     * @access public
+     * @return boolean
+     */
     public function hasCategory()
     {
         return is_object($this->getCategory());
     }
 
+
+
+
+    /**
+     * Gets file's category.
+     * 
+     * @access public
+     * @return mixed Category if they are one, null otherwise
+     */
     public function getCategory()
     {
         if($this->isPost())
@@ -210,12 +320,13 @@ class File
         }
     }
 
+
+
     /**
-     * Retourne un timestamp UNIX.
+     * Gets an UNIX timestamp.
      *
-     * Retourne le timestamp UNIX de la date du fichier, en prenant soit 
-     * l’attribut "date" de l’en-tête YAML, soit la date du fichier si cet 
-     * attribut n’existe pas. 
+     * Gets an UNIX timestamp of file's date, taking `date` attribute of the 
+     * YAML header or file's date otherwise.
      * 
      * @access public
      * @return integer
@@ -240,8 +351,11 @@ class File
         }
     }
 
+
+
+
     /**
-     * Obtient la date au format ISO 8601 utilisé dans les flux Atom 
+     * Gets file's date as ISO 8601 format as used into Atom. 
      * 
      * @access public
      * @return string
@@ -251,8 +365,10 @@ class File
         return(date('c', $this->getDate()));
     }
 
+
+
     /**
-     * Obtient la date du fichier au format RFC822, utile pour la génération des RSS. 
+     * Gets file's date as RFC822, used into RSS. 
      * 
      * @access public
      * @return string
@@ -261,6 +377,8 @@ class File
     {
         return(date('r', $this->getDate()));
     }
+
+
 
     public function getYear()
     {
