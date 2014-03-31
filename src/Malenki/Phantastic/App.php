@@ -56,73 +56,73 @@ class App
             ->required()
             ->short('s')
             ->long('source')
-            ->help('Le dossier contenant les fichiers à traiter.', 'DIR')
+            ->help('The source directory must contain file to parse.', 'DIR')
         ;
 
         $opt->newValue('destination')
             ->required()
             ->short('d')
             ->long('destination')
-            ->help('Le dossier dans lequel seront créés les fichiers.', 'DIR')
+            ->help('The destination directory will contain generated or copied files.', 'DIR')
         ;
 
         $opt->newValue('baseurl')
             ->required()
             ->short('b')
             ->long('baseurl')
-            ->help('URL de base utilisé pour le site généré. Cette valeur n’est pas utilisée si l’option « server » est choisie.', 'URL')
+            ->help('Base URL used for final result, i.e. production site version. This value is not used while "server" option is in use.', 'URL')
         ;
 
         $opt->newValue('language')
             ->required()
             ->short('l')
             ->long('language')
-            ->help('Langue principale de rédaction du site. La langue doit être précisée au format 2 lettres, exemple : « FR » pour français, « EN » pour anglais, etc.', 'LANG')
+            ->help('Main language used to write posts of the site. Language must be given into 2 letters code format, like, for example, "FR" for franch, "EN" for english, and so on.', 'LANG')
         ;
 
         $opt->newValue('config')
             ->short('c')
             ->long('config')
-            ->help('Fichier de configuration contenant différentes valeurs sous forme d’un fichier YAML. Si FICHIER n’est pas spécifié, alors un fichier « config.yaml » sera lu par défaut, mais s’il n’existe pas, déclenchera une erreur.', 'FILE')
+            ->help('Configuration file that defines many different values as an YAML file. If FILE is not given, a default "config.yaml" file is read if it is found, otherwise, an error appears.', 'FILE')
         ;
 
         
         $opt->newSwitch('minimize')
             ->long('minimize')
-            ->help('Réduit la taille des fichiers générés.')
+            ->help('Reduce size of generated files.')
         ;
         
 
         $opt->newValue('timezone')
             ->long('timezone')
-            ->help('Fuseau horaire TZ à utiliser pour les dates, comme par exemple « Europe/Paris ». La valeur utilisée par défaut est « UTC ».', 'TZ')
+            ->help('Time zone TZ to use to have date, so, TZ could be "Europe/Paris" for example. Default value used is "UTC".', 'TZ')
         ;
         
         $opt->newValue('server')
             ->long('server')
-            ->help('Fait un rendu et lance un serveur web de test à l’adresse ADR:PORT. Si l’adresse n’est pas précisée, alors « localhost:8080 » sera prise. Si l’option « baseurl » est précisée, elle sera ignorée.', 'ADR:PORT')
+            ->help('Do rendering and run test web server at the address ADR:PORT. If this address is not given, then "localhost:8080" will be used. If option "baseurl" is set, then it will be ignored in this case.', 'ADR:PORT')
         ;
 
         $opt->newValue('related_posts')
             ->long('related-posts')
-            ->help('Attribue pour chaque post N posts en relation avec son contenu. Ceci peut être gourmand en calcul. Par défaut à zéro si vous ne lui donnez pas une valeur positive.', 'N')
+            ->help('Give to each post N posts having relation with its content. This can be time consuming feature. By default to 0 if you do not give a positive value.', 'N')
         ;
         
 
         $opt->newSwitch('sitemap')
             ->long('sitemap')
-            ->help('Génère un sitemap XML du site.')
+            ->help('Create XML sitemap.')
         ;
 
         
         $opt->newSwitch('disabletags')
             ->long('disable-tags')
-            ->help('Désactive le rendu des tags, que ce soit leurs pages dédiées ou le nuage de tags.')
+            ->help('Disable tag rendering: pages and tag cloud.')
         ;
 
         $opt->newSwitch('disablecategories')
             ->long('disable-categories')
-            ->help('Désactive le rendu des catégories.')
+            ->help('Disable categories rendering.')
         ;
 
     }
