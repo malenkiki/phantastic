@@ -22,7 +22,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
 use Malenki\Phantastic\Parser as Parser;
@@ -32,12 +31,12 @@ use Exception;
 /**
  * La configuration du programme.
  *
- * Créée par les options en ligne de commande ou par un fichier de 
- * configuration YAML, cette classe permet aussi l’utilisation de nombreux 
+ * Créée par les options en ligne de commande ou par un fichier de
+ * configuration YAML, cette classe permet aussi l’utilisation de nombreux
  * paramètres avec des valeurs par défaut.
- * 
+ *
  * @copyright 2012 Michel Petit
- * @author Michel Petit <petit.michel@gmail.com> 
+ * @author Michel Petit <petit.michel@gmail.com>
  */
 class Config
 {
@@ -47,27 +46,27 @@ class Config
     protected static $obj_instance = null;
 
     protected $str_name = null;
-    
+
     protected $str_meta = null;
-    
+
     protected $str_description = null;
-    
+
     protected $str_timezone = 'UTC';
-    
+
     protected $str_language = null;
-    
+
     protected $str_server = Server::HOST;
 
     protected $arr_categories = null;
-    
+
     protected $str_base = null;
-    
+
     protected $str_permalink_tag = null;
-    
+
     protected $str_permalink_category = null;
 
     protected $str_permalink_post = null;
-    
+
     protected $obj_dir = null;
 
     protected $str_author = null;
@@ -77,47 +76,37 @@ class Config
     protected $bool_create_sitemap = false;
 
     protected $bool_disable_tags = false;
-    
-    protected $bool_disable_categories = false;
 
+    protected $bool_disable_categories = false;
 
     protected static function basicCheck($str)
     {
         return preg_match('@/$@', $str);
     }
 
-
-
     /**
      * Permet de spécifier un fichier alternatif
      */
     public static function getInstanceWithConfigFile($str)
     {
-        if(is_readable($str))
-        {
+        if (is_readable($str)) {
             $mixed_yaml = Parser::parseYaml($str, true);
 
-            if($mixed_yaml !== false)
-            {
+            if ($mixed_yaml !== false) {
                 self::$mixed_yaml = (object) $mixed_yaml;
+
                 return self::getInstance();
-            }
-            else
-            {
+            } else {
                 throw new Exception(
                     sprintf('File %s is not a valid YAML setting file!', $str)
                 );
             }
-        }
-        else
-        {
+        } else {
             throw new Exception(
                 sprintf('File %s does not exist or is not readable.', $str)
             );
         }
     }
-
-
 
     private function __construct()
     {
@@ -134,8 +123,7 @@ class Config
         $this->str_permalink_category = Permalink::CATEGORY;
         $this->str_permalink_post = Permalink::POST;
 
-        if(!is_null(self::$mixed_yaml))
-        {
+        if (!is_null(self::$mixed_yaml)) {
             $this->setName(self::$mixed_yaml->name);
             $this->setMeta(self::$mixed_yaml->meta);
             $this->setDescription(self::$mixed_yaml->description);
@@ -146,23 +134,21 @@ class Config
             if(isset(self::$mixed_yaml->language))
                 $this->setLanguage(self::$mixed_yaml->language);
 
-            // si server actif, désactive l’URL de base pour avoir une 
+            // si server actif, désactive l’URL de base pour avoir une
             // navigation fonctionnnelle
-            if(isset(self::$mixed_yaml->server) && self::$mixed_yaml->server == true)
-            {
+            if (isset(self::$mixed_yaml->server) && self::$mixed_yaml->server == true) {
                 $this->setServer(self::$mixed_yaml->server);
-            }
-            elseif(isset(self::$mixed_yaml->base))
+            } elseif(isset(self::$mixed_yaml->base))
                 $this->setBase(self::$mixed_yaml->base);
 
             $this->setCategories(self::$mixed_yaml->categories);
 
             if(isset(self::$mixed_yaml->permalink['tag']))
                 $this->setPermalinkTag(self::$mixed_yaml->permalink['tag']);
-            
+
             if(isset(self::$mixed_yaml->permalink['category']))
                 $this->setPermalinkCategory(self::$mixed_yaml->permalink['category']);
-            
+
             if(isset(self::$mixed_yaml->permalink['post']))
                 $this->setPermalinkPost(self::$mixed_yaml->permalink['post']);
 
@@ -180,43 +166,39 @@ class Config
 
             if(isset(self::$mixed_yaml->dir['template']))
                 $this->setTemplateDir(self::$mixed_yaml->dir['template']);
-            
+
             if(isset(self::$mixed_yaml->author))
                 $this->setAuthor(self::$mixed_yaml->author);
-            
+
             if(isset(self::$mixed_yaml->sitemap))
                 $this->setSitemap();
 
             if(isset(self::$mixed_yaml->disabletags))
                 $this->setDisableTags();
-            
+
             if(isset(self::$mixed_yaml->disablecategories))
                 $this->setDisableCategories();
-            
+
             if(isset(self::$mixed_yaml->related_posts) && self::$mixed_yaml->related_posts > 0)
                 $this->setRelatedPosts(self::$mixed_yaml->related_posts);
-            
-            
+
         }
     }
-
 
     public function serverAvailable()
     {
         return(isset(self::$mixed_yaml->server) && self::$mixed_yaml->server == true);
-    } 
+    }
 
     public static function getInstance()
     {
-        if(is_null(self::$obj_instance))
-        {
+        if (is_null(self::$obj_instance)) {
             self::$obj_instance = new self();
         }
 
         return self::$obj_instance;
     }
 
-    
     public function setAuthor($str)
     {
         $this->str_author = $str;
@@ -237,99 +219,77 @@ class Config
         $this->bool_disable_categories = true;
     }
 
-
     public function setName($str)
     {
         $this->str_name = $str;
     }
-
 
     public function setDescription($str)
     {
         $this->str_description = $str;
     }
 
-
     public function setMeta($str)
     {
         $this->str_meta = $str;
     }
-    
+
     public function setServer($mixed)
     {
-        if(is_bool($mixed))
-        {
-            if(!$mixed)
-            {
+        if (is_bool($mixed)) {
+            if (!$mixed) {
                 $this->str_server = $mixed;
             }
-        }
-        else
-        {
+        } else {
             $this->str_server = $mixed;
         }
     }
 
     /**
-     * setTimezone 
-     * 
-     * @param string $str 
+     * setTimezone
+     *
+     * @param  string $str
      * @access public
      * @return string
      */
     public function setTimezone($str)
     {
-        if(in_array($str, DateTimezone::listIdentifiers()))
-        {
+        if (in_array($str, DateTimezone::listIdentifiers())) {
             $this->str_timezone = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Timezone is not valid.');
         }
     }
 
-
-
     public function setLanguage($str)
     {
-        if(!is_string($str))
-        {
+        if (!is_string($str)) {
             throw new Exception('Language must be a string.');
         }
 
         $str = trim($str);
 
-        if(strlen($str) != 2)
-        {
+        if (strlen($str) != 2) {
             throw new Exception('Language must be given into ISO 639-1 format.');
         }
 
-        if(preg_match('/[0-9]/', $str))
-        {
+        if (preg_match('/[0-9]/', $str)) {
             throw new Exception('Not valid ISO 639-1 language format.');
         }
 
         $this->str_language = strtolower($str);
     }
 
-
-
     public function setCategories($arr)
     {
         $this->arr_categories = $arr;
     }
 
-
-
     public function setBase($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->str_base = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Base URL must ending with a slash.');
         }
     }
@@ -351,76 +311,58 @@ class Config
 
     public function setPostDir($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->obj_dir->post = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Custom posts’ directory must have a slash at the end.');
         }
     }
-    
+
     public function setSampleDir($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->obj_dir->sample = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Custom samples’ texts’ directory must have a slash at the end.');
         }
     }
-    
+
     public function setSrcDir($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->obj_dir->src = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Custom source directory must have a slash at the end.');
         }
     }
 
     public function setDestDir($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->obj_dir->dest = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Custom destination directory must have a slash at the end.');
         }
     }
 
     public function setTemplateDir($str)
     {
-        if(self::basicCheck($str))
-        {
+        if (self::basicCheck($str)) {
             $this->obj_dir->template = $str;
-        }
-        else
-        {
+        } else {
             throw new Exception('Custom destination directory must have a slash at the end.');
         }
     }
 
     public function setRelatedPosts($int)
     {
-        if($int >= 0)
-        {
+        if ($int >= 0) {
             $this->int_related_posts = $int;
-        }
-        else
-        {
+        } else {
             throw new Exception('Related posts must be a positive value or 0.');
         }
     }
-    
+
     public function getAuthor()
     {
         return $this->str_author;
@@ -435,7 +377,6 @@ class Config
     {
         return $this->bool_disable_categories;
     }
-
 
     public function getName()
     {
@@ -496,12 +437,12 @@ class Config
     {
         return $this->str_permalink_tag;
     }
-    
+
     public function getPermalinkCategory()
     {
         return $this->str_permalink_category;
     }
-    
+
     public function getPermalinkPost()
     {
         return $this->str_permalink_post;

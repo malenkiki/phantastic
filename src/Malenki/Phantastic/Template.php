@@ -22,16 +22,15 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
-class Template 
+class Template
 {
     const TAG_PAGE = 'tag-page';
     const TAG_INDEX = 'tag-index';
 
     const CATEGORY_PAGE = 'category-page';
-    
+
     const TAGS = 'tags';
     const CATEGORIES = 'categories';
     const ROOT_CATEGORIES = 'root-categories';
@@ -66,7 +65,6 @@ class Template
         );
     }
 
-
     public function hasText($str_key)
     {
         return Sample::has($str_key);
@@ -75,27 +73,22 @@ class Template
     public function text($str_key)
     {
         // TODO: Je ne lève pas d’erreur, mais dans le futur, un message de log va apparaitre.
-        if(Sample::has($str_key))
-        {
+        if (Sample::has($str_key)) {
             return Sample::get($str_key)->getContent();
-        }
-        else
-        {
+        } else {
             return '';
         }
     }
 
     public function truncate($str, $int_length, $str_end = '…')
     {
-        if(mb_strlen($str, 'UTF-8') > $int_length)
-        {
+        if (mb_strlen($str, 'UTF-8') > $int_length) {
             $str = strip_tags($str);
             // TODO: Convertir les entités HTML en caractère brut…
             $int_length = $int_length - mb_strlen($str_end, 'UTF-8');
+
             return mb_substr($str, 0, $int_length, 'UTF-8') . $str_end;
-        }
-        else
-        {
+        } else {
             return $str;
         }
     }
@@ -110,8 +103,7 @@ class Template
             $this->str_tmpl
         );
 
-        if(!file_exists($str_file))
-        {
+        if (!file_exists($str_file)) {
             throw new \Exception(sprintf('File %s does not exist! Rendering abort.', $str_file));
         }
 

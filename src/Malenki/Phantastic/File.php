@@ -27,10 +27,10 @@ namespace Malenki\Phantastic;
 use Malenki\Phantastic\Parser as Parser;
 
 /**
- * File object to have some information about its content and know the type of 
+ * File object to have some information about its content and know the type of
  * document it is.
- * 
- * @author Michel Petit <petit.michel@gmail.com> 
+ *
+ * @author Michel Petit <petit.michel@gmail.com>
  * @license MIT
  */
 class File
@@ -43,24 +43,19 @@ class File
     protected $obj_head = null;
     protected $str_content = null;
 
-
-
-
     /**
-     * Reads file's content and parses it to getsome subpart easyly. 
-     * 
+     * Reads file's content and parses it to getsome subpart easyly.
+     *
      * @access protected
      * @return void
      */
     protected function read()
     {
         $p = new Parser($this->obj_path->getRealPath());
-        if($p->hasHeader())
-        {
+        if ($p->hasHeader()) {
             $this->obj_head = (object) $p->getHeader();
 
-            if($p->hasContent())
-            {
+            if ($p->hasContent()) {
                 $this->str_content = $p->getContent();
             }
         }
@@ -80,8 +75,8 @@ class File
 
 
     /**
-     * Checks if current file has a YAML header 
-     * 
+     * Checks if current file has a YAML header
+     *
      * @access public
      * @return boolean
      */
@@ -93,8 +88,8 @@ class File
 
 
     /**
-     * Gets header's information as an object. 
-     * 
+     * Gets header's information as an object.
+     *
      * @access public
      * @return \stdClass
      */
@@ -103,11 +98,9 @@ class File
         return $this->obj_head;
     }
 
-
-
     /**
      * Gets file's content as a string
-     * 
+     *
      * @access public
      * @return string
      */
@@ -119,8 +112,8 @@ class File
 
 
     /**
-     * Get generated ID of the current file 
-     * 
+     * Get generated ID of the current file
+     *
      * @access public
      * @return integer
      */
@@ -132,8 +125,8 @@ class File
 
 
     /**
-     * Checks whether the current file is a post or not. 
-     * 
+     * Checks whether the current file is a post or not.
+     *
      * @access public
      * @return boolean
      */
@@ -148,8 +141,8 @@ class File
 
 
     /**
-     * Tests if the current file is a page. 
-     * 
+     * Tests if the current file is a page.
+     *
      * @access public
      * @return boolean
      */
@@ -176,8 +169,8 @@ class File
     /**
      * Tests whether current file is a sample.
      *
-     * Samples are pièce of HTML block that can be used where you want into templates. 
-     * 
+     * Samples are pièce of HTML block that can be used where you want into templates.
+     *
      * @access public
      * @return boolean
      */
@@ -193,8 +186,8 @@ class File
 
 
     /**
-     * Gets title URL component 
-     * 
+     * Gets title URL component
+     *
      * @access public
      * @return string
      */
@@ -208,36 +201,28 @@ class File
 
     /**
      * Gets final file's URL.
-     * 
+     *
      * @throw \Exception If an error occurs when building URL.
-     * @param boolean $full By default at False, maust be True if you want full URL (with domain…)
+     * @param  boolean $full By default at False, maust be True if you want full URL (with domain…)
      * @access public
      * @return string
      */
     public function getUrl($full = false)
     {
-        if($this->isPost())
-        {
-            //Prendre ce qui est défini dans le fichier de configuration 
-            //SAUF si une directive « permalink » existe dans l’en-tête 
+        if ($this->isPost()) {
+            //Prendre ce qui est défini dans le fichier de configuration
+            //SAUF si une directive « permalink » existe dans l’en-tête
             //YAML du fichier
-            if(isset($this->getHeader()->permalink))
-            {
+            if (isset($this->getHeader()->permalink)) {
                 $str_permalink = $this->getHeader()->permalink;
-            }
-            else
-            {
+            } else {
                 $str_permalink = Config::getInstance()->getPermalinkPost();
             }
-        }
-        else if($this->isPage())
-        {
+        } elseif ($this->isPage()) {
             //Prendre la directive « permalink » définie dans l’en-tête YAML
             //Par exemple /a-propos/
             $str_permalink = $this->getHeader()->permalink;
-        }
-        else
-        {
+        } else {
             //Prendre le chemin tel que défini dans la source.
             $str_permalink = preg_replace(
                 '@' . Path::getSrc() . '@',
@@ -255,28 +240,20 @@ class File
         $url->setDay($this->getDay());
 
         // Les catégories n’existent que pour les Posts
-        if($this->hasCategory())
-        {
+        if ($this->hasCategory()) {
             $url->setCategories($this->getCategory());
         }
 
-
-
-        if($url->isOk())
-        {
+        if ($url->isOk()) {
             return $url->getUrl($full);
-        }
-        else
-        {
+        } else {
             throw new \Exception('Issue occured while building URL!');
         }
     }
 
-
-
     /**
      * Tests whether the current file has a category or not.
-     * 
+     *
      * @access public
      * @return boolean
      */
@@ -285,27 +262,19 @@ class File
         return is_object($this->getCategory());
     }
 
-
-
-
     /**
      * Gets file's category.
-     * 
+     *
      * @access public
      * @return mixed Category if they are one, null otherwise
      */
     public function getCategory()
     {
-        if($this->isPost())
-        {
-            if(is_null($this->str_cat_key))
-            {
-                if($this->getObjPath()->getPath(). Path::getDirectorySeparator() == Path::getSrcPost())
-                {
+        if ($this->isPost()) {
+            if (is_null($this->str_cat_key)) {
+                if ($this->getObjPath()->getPath(). Path::getDirectorySeparator() == Path::getSrcPost()) {
                     $key = Path::getDirectorySeparator();
-                }
-                else
-                {
+                } else {
                     $key = preg_replace('@'.Path::getSrcPost().'@', '',$this->getObjPath()->getPath());
                 }
 
@@ -313,9 +282,7 @@ class File
             }
 
             return Category::getHier($this->str_cat_key);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -325,28 +292,22 @@ class File
     /**
      * Gets an UNIX timestamp.
      *
-     * Gets an UNIX timestamp of file's date, taking `date` attribute of the 
+     * Gets an UNIX timestamp of file's date, taking `date` attribute of the
      * YAML header or file's date otherwise.
-     * 
+     *
      * @access public
      * @return integer
      */
     public function getDate()
     {
-        if(isset($this->getHeader()->date))
-        {
-            if(is_integer($this->getHeader()->date))
-            {
+        if (isset($this->getHeader()->date)) {
+            if (is_integer($this->getHeader()->date)) {
                 // la date peut être directement un timestamp si YAML de Symfony
                 return $this->getHeader()->date;
-            }
-            else
-            {
+            } else {
                 return strtotime($this->getHeader()->date);
             }
-        }
-        else
-        {
+        } else {
             return $this->obj_path->getMTime();
         }
     }
@@ -355,8 +316,8 @@ class File
 
 
     /**
-     * Gets file's date as ISO 8601 format as used into Atom. 
-     * 
+     * Gets file's date as ISO 8601 format as used into Atom.
+     *
      * @access public
      * @return string
      */
@@ -365,11 +326,9 @@ class File
         return(date('c', $this->getDate()));
     }
 
-
-
     /**
-     * Gets file's date as RFC822, used into RSS. 
-     * 
+     * Gets file's date as RFC822, used into RSS.
+     *
      * @access public
      * @return string
      */
@@ -398,7 +357,7 @@ class File
     {
         return(date('H', $this->getDate()));
     }
-    
+
     public function getMinute()
     {
         return(date('i', $this->getDate()));

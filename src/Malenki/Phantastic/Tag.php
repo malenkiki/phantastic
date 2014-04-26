@@ -22,15 +22,14 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
 /**
- * Supporte à la fois un Tag en tant que tel et un Tag Cloud pour l’ensemble du 
- * site. 
- * 
+ * Supporte à la fois un Tag en tant que tel et un Tag Cloud pour l’ensemble du
+ * site.
+ *
  * @copyright 2012 Michel Petit
- * @author Michel Petit <petit.michel@gmail.com> 
+ * @author Michel Petit <petit.michel@gmail.com>
  */
 class Tag
 {
@@ -62,14 +61,13 @@ class Tag
     {
         $tag = new self($str_name);
         $tag->addToCloud();
+
         return self::$arr_cloud[$tag->getSlug()];
     }
 
-
     public function addToCloud()
     {
-        if(!isset(self::$arr_cloud[$this->getSlug()]))
-        {
+        if (!isset(self::$arr_cloud[$this->getSlug()])) {
             self::$arr_cloud[$this->getSlug()] = $this;
         }
     }
@@ -81,29 +79,25 @@ class Tag
 
     protected function setMinMax()
     {
-        if(self::$int_min_count == 0 || $this->getCount() < self::$int_min_count)
-        {
+        if (self::$int_min_count == 0 || $this->getCount() < self::$int_min_count) {
             self::$int_min_count = $this->getCount();
         }
-        
-        if(self::$int_max_count == 0 || $this->getCount() > self::$int_max_count)
-        {
+
+        if (self::$int_max_count == 0 || $this->getCount() > self::$int_max_count) {
             self::$int_max_count = $this->getCount();
         }
     }
 
     protected function computeStyle()
     {
-        
+
         $int_spread = self::$int_max_count - self::$int_min_count;
-        
+
         if($int_spread <= 0) $int_spread = 1;
-        
+
         $float_css_step = 4 / $int_spread;
 
-
-        foreach(self::$arr_cloud as $str_name => $obj)
-        {
+        foreach (self::$arr_cloud as $str_name => $obj) {
             $float_level = 1  + ($obj->getCount()  - self::$int_min_count) * $float_css_step;
 
             if($float_level <= 1) $obj->setStyle('xsmall');
@@ -111,27 +105,24 @@ class Tag
             if($float_level <= 3 && $float_level > 2) $obj->setStyle('medium');
             if($float_level <= 4 && $float_level > 3) $obj->setStyle('large');
             if($float_level <= 5 && $float_level > 4) $obj->setStyle('xlarge');
-            
+
             self::$arr_cloud[$str_name] = $obj;
         }
     }
 
     public function addId($int_id)
     {
-        if($int_id > 0)
-        {
+        if ($int_id > 0) {
             $this->arr_ids[] = $int_id;
             $this->setMinMax();
             self::computeStyle();
         }
     }
-    
-    
+
     public static function get($str_name)
     {
         return self::$arr_cloud[Permalink::createSlug($str_name)];
     }
-
 
     /**
      * @return integer
@@ -162,34 +153,28 @@ class Tag
      */
     public function getSlug()
     {
-        if(is_null($this->str_slug))
-        {
+        if (is_null($this->str_slug)) {
             $this->str_slug = Permalink::createSlug($this->str_name);
         }
 
         return $this->str_slug;
     }
 
-
     public function getUrl($full = false)
     {
         $url = new Permalink(Config::getInstance()->getPermalinkTag());
         $url->setTitle($this->getSlug());
 
-        if($url->isOk())
-        {
+        if ($url->isOk()) {
             return $url->getUrl($full);
-        }
-        else
-        {
+        } else {
             throw new \Exception('Issue occured while building tag’s URL!');
         }
     }
 
-
     /**
      * ID des fichiers
-     * 
+     *
      * @access public
      * @return array
      */

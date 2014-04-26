@@ -31,17 +31,17 @@ class Parser
     protected $str_content = null;
 
     /**
-     * Interprète un contenu YAML sous forme de chaîne de caractères ou de 
+     * Interprète un contenu YAML sous forme de chaîne de caractères ou de
      * fichier.
-     * 
-     * Si $is_file est à TRUE, alors l’argument $str sera considéré comme étant 
+     *
+     * Si $is_file est à TRUE, alors l’argument $str sera considéré comme étant
      * le chemin vers le fichier à interpréter.
      *
-     * Si $is_file n’est pas renseigné, alors la chaîne de caractères fournie 
+     * Si $is_file n’est pas renseigné, alors la chaîne de caractères fournie
      * dans $str sera interprétée.
      *
-     * @param string $str 
-     * @param boolean $is_file 
+     * @param  string  $str
+     * @param  boolean $is_file
      * @static
      * @access public
      * @return array
@@ -50,21 +50,17 @@ class Parser
     {
         $yaml = new \Symfony\Component\Yaml\Parser();
 
-        if($is_file)
-        {
+        if ($is_file) {
             return $yaml->parse(file_get_contents($str));
-        }
-        else
-        {
+        } else {
             return $yaml->parse($str);
         }
     }
-    
 
     /**
      * Constructeur prenant un nom de fichier en argument pour le parcourir
-     * 
-     * @param string $str 
+     *
+     * @param string $str
      * @access public
      */
     public function __construct($str)
@@ -75,21 +71,17 @@ class Parser
         $int_length_header = 0;
         $int_cnt = count($arr_lines);
 
-        if(preg_match('/^--- *$/', $arr_lines[0]))
-        {
+        if (preg_match('/^--- *$/', $arr_lines[0])) {
 
-            for($i = 1; $i < $int_cnt; $i++)
-            {
-                if(preg_match('/^--- *$/', $arr_lines[$i]))
-                {
+            for ($i = 1; $i < $int_cnt; $i++) {
+                if (preg_match('/^--- *$/', $arr_lines[$i])) {
                     $int_length_header = $i - 1;
                     break;
                 }
             }
         }
 
-        if($int_length_header > 0)
-        {
+        if ($int_length_header > 0) {
             $str_yaml = implode("\n", array_slice($arr_lines, 1, $int_length_header));
             $str_content = implode("\n", array_slice($arr_lines, $int_length_header + 2));
             $this->arr_header = self::parseYaml($str_yaml);
@@ -99,8 +91,8 @@ class Parser
     }
 
     /**
-     * Détermine si le document contient à la fois header et contenu. 
-     * 
+     * Détermine si le document contient à la fois header et contenu.
+     *
      * @access public
      * @return boolean
      */
@@ -109,12 +101,9 @@ class Parser
         return $this->arr_header && $this->str_content;
     }
 
-
-
-
     /**
-     * Teste la présence d’un header YAML pour le fichier interprété. 
-     * 
+     * Teste la présence d’un header YAML pour le fichier interprété.
+     *
      * @access public
      * @return boolean
      */
@@ -123,14 +112,12 @@ class Parser
         return !is_null($this->arr_header);
     }
 
-
-
     /**
      * Teste la présence d’un contenu pour le fichier interprété.
      *
-     * Au sens de contenu testé, il faut le comprendre comme étant un contenu 
+     * Au sens de contenu testé, il faut le comprendre comme étant un contenu
      * pouvant être inclu dans la création de page par le programme.
-     * 
+     *
      * @access public
      * @return boolean
      */
@@ -139,11 +126,9 @@ class Parser
         return !is_null($this->str_content);
     }
 
-
-
     /**
-     * Inerprète le contenu YAML du header d’un fichier 
-     * 
+     * Inerprète le contenu YAML du header d’un fichier
+     *
      * @access public
      * @return void
      */
@@ -152,11 +137,9 @@ class Parser
         return $this->arr_header;
     }
 
-
-
     /**
-     * Interprète une chaîne de caractère Markdown pour créer un équivalant HTML. 
-     * 
+     * Interprète une chaîne de caractère Markdown pour créer un équivalant HTML.
+     *
      * @access public
      * @return string
      */

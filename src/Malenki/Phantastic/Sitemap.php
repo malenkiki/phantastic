@@ -24,48 +24,37 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace Malenki\Phantastic;
 
-
 /**
  * Permet la création d’un fichier sitemap.xml.
  *
- * Chaque post prend une priorité de 1, les autres pages restent à leur valeur 
+ * Chaque post prend une priorité de 1, les autres pages restent à leur valeur
  * par défaut.
  *
  * @copyright 2013 Michel Petit
- * @author Michel Petit <petit.michel@gmail.com> 
+ * @author Michel Petit <petit.michel@gmail.com>
  */
 class Sitemap implements \Countable
 {
     const FILE_NAME = 'sitemap.xml';
-    
+
     const POST_PRIORITY = '1';
-    
+
     const PAGE_PRIORITY = '0.5'; // string to keep always the english format
 
-    
-    
     protected static $obj_instance = null;
 
-
-
     protected $arr_pages = array();
-    
+
     protected $arr_posts = array();
 
-    
-    
     public static function getInstance()
     {
-        if(is_null(self::$obj_instance))
-        {
+        if (is_null(self::$obj_instance)) {
             self::$obj_instance = new self();
         }
 
         return self::$obj_instance;
     }
-
-
-
 
     public function addPage($url, $date = null)
     {
@@ -77,8 +66,6 @@ class Sitemap implements \Countable
         $this->arr_pages[md5($url)] = $page;
     }
 
-
-
     public function addPost($url, $date = null)
     {
         $post = new \stdClass();
@@ -89,24 +76,19 @@ class Sitemap implements \Countable
         $this->arr_posts[md5($url)] = $post;
     }
 
-
     public function count()
     {
         return count($this->arr_pages) + count($this->arr_posts);
     }
 
-
     public function render()
     {
-        if($this->count())
-        {
+        if ($this->count()) {
             $dom = new \DOMDocument('1.0', 'UTF-8');
             $urlset = $dom->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
 
-            if(count($this->arr_posts))
-            {
-                foreach($this->arr_posts as $post)
-                {
+            if (count($this->arr_posts)) {
+                foreach ($this->arr_posts as $post) {
                     $url = $dom->createElement('url');
 
                     $loc = $dom->createElement('loc', $post->url);
@@ -115,8 +97,7 @@ class Sitemap implements \Countable
                     $url->appendChild($loc);
                     $url->appendChild($priority);
 
-                    if($post->date)
-                    {
+                    if ($post->date) {
                         $lastmod = $dom->createElement('lastmod', date('Y-m-d', $post->date));
                         $url->appendChild($lastmod);
                     }
@@ -124,11 +105,9 @@ class Sitemap implements \Countable
                     $urlset->appendChild($url);
                 }
             }
-            
-            if(count($this->arr_pages))
-            {
-                foreach($this->arr_pages as $page)
-                {
+
+            if (count($this->arr_pages)) {
+                foreach ($this->arr_pages as $page) {
                     $url = $dom->createElement('url');
 
                     $loc = $dom->createElement('loc', $page->url);
@@ -137,8 +116,7 @@ class Sitemap implements \Countable
                     $url->appendChild($loc);
                     $url->appendChild($priority);
 
-                    if($page->date)
-                    {
+                    if ($page->date) {
                         $lastmod = $dom->createElement('lastmod', date('Y-m-d', $page->date));
                         $url->appendChild($lastmod);
                     }

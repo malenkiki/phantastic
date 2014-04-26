@@ -22,7 +22,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
 class History
@@ -42,6 +41,7 @@ class History
     public static function getHist()
     {
         krsort(self::$arr_hist);
+
         return self::$arr_hist;
     }
 
@@ -53,30 +53,23 @@ class History
         return self::$arr_hist[$str_date];
     }
 
-
     public function addToHist()
     {
-        if(!isset(self::$arr_hist[$this->str_date]))
-        {
+        if (!isset(self::$arr_hist[$this->str_date])) {
             self::$arr_hist[$this->str_date] = $this;
         }
     }
 
-
-
-
     public function setId($int_id)
     {
-        if($int_id > 0)
-        {
+        if ($int_id > 0) {
             $this->int_id = $int_id;
         }
     }
 
-
     /**
      * File's ID
-     * 
+     *
      * @access public
      * @return integer
      */
@@ -84,55 +77,45 @@ class History
     {
         return $this->int_id;
     }
-    
-    
+
+
     protected static function getPrevNext($type, $k)
     {
         $pn = null;
 
-        if($type == 'prev')
-        {
+        if ($type == 'prev') {
             ksort(self::$arr_hist);
-        }
-        else
-        {
+        } else {
             krsort(self::$arr_hist);
         }
 
-        foreach(self::$arr_hist as $hk => $hv)
-        {
-            if($hk == $k)
-            {
-                if(is_null($pn))
-                {
+        foreach (self::$arr_hist as $hk => $hv) {
+            if ($hk == $k) {
+                if (is_null($pn)) {
                     return null;
-                }
-                else
-                {
+                } else {
                     return self::$arr_hist[$pn]->getFileId();
                 }
-            }
-            else
-            {
+            } else {
                 $pn = $hk;
             }
         }
 
         return null;
     }
-    
+
     public static function getPrevFor($k)
     {
         return self::getPrevNext('prev', $k);
     }
-    
-    
-    
+
+
+
     /**
-     * Gets next post for given one. 
-     * 
+     * Gets next post for given one.
+     *
      * @todo k is integer or date?
-     * @param mixed $k 
+     * @param  mixed $k
      * @static
      * @access public
      * @return void
@@ -142,12 +125,10 @@ class History
         return self::getPrevNext('next', $k);
     }
 
-
-
     /**
-     * Gets n last posts. 
-     * 
-     * @param integer $n Number of posts
+     * Gets n last posts.
+     *
+     * @param  integer $n Number of posts
      * @static
      * @access public
      * @return array
@@ -158,14 +139,10 @@ class History
 
         krsort(self::$arr_hist);
 
-        foreach(self::$arr_hist as $h)
-        {
-            if(count($arrProv) < $n)
-            {
+        foreach (self::$arr_hist as $h) {
+            if (count($arrProv) < $n) {
                 $arrProv[] = $h->getFileId();
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -173,13 +150,11 @@ class History
         return $arrProv;
     }
 
-    
-    
     /**
-     * Gets elements for givent date 
-     * 
+     * Gets elements for givent date
+     *
      * @todo code this feature.
-     * @param mixed $date 
+     * @param  mixed $date
      * @static
      * @access public
      * @return array

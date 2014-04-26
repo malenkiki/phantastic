@@ -22,7 +22,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
 /**
@@ -33,9 +32,9 @@ namespace Malenki\Phantastic;
  * - Le fichier de configuration comporte les traductions éventuelles.
  *
  * Avec cette classe, on a la liste des Posts pour chaque nœud.
- * 
+ *
  * @copyright 2012 Michel Petit
- * @author Michel Petit <petit.michel@gmail.com> 
+ * @author Michel Petit <petit.michel@gmail.com>
  */
 class Category
 {
@@ -54,30 +53,23 @@ class Category
             Config::getInstance()->getDir()->post
         );
 
-
         $this->arr_node = explode(
             '/',
             preg_replace("@^$str_root@", '', $str_path)
         );
 
         // cas où le post n’a pas de catégorie
-        if(isset($this->arr_node[0]) && $this->arr_node[0] == '')
-        {
+        if (isset($this->arr_node[0]) && $this->arr_node[0] == '') {
             $this->arr_node = array();
         }
 
-        if(count($this->arr_node))
-        {
+        if (count($this->arr_node)) {
             $arr_cat = Config::getInstance()->getCategories();
-            
-            for($i = 0; $i < count($this->arr_node); $i++)
-            {
-                if(isset($arr_cat[$this->arr_node[$i]]))
-                {
+
+            for ($i = 0; $i < count($this->arr_node); $i++) {
+                if (isset($arr_cat[$this->arr_node[$i]])) {
                     $this->arr_name[] = $arr_cat[$this->arr_node[$i]];
-                }
-                else
-                {
+                } else {
                     $this->arr_name[] = $this->arr_node[$i];
                 }
             }
@@ -86,27 +78,21 @@ class Category
     }
 
     /**
-     * Retourne les catégories, ou une d’entre elles si un argument est passé. 
-     * 
-     * @param string $key 
+     * Retourne les catégories, ou une d’entre elles si un argument est passé.
+     *
+     * @param  string $key
      * @static
      * @access public
-     * @return mixed Soit un array soit un objet Category soit null
+     * @return mixed  Soit un array soit un objet Category soit null
      */
     public static function getHier($key = null)
     {
-        if(is_null($key))
-        {
+        if (is_null($key)) {
             return self::$arr_hier;
-        }
-        else
-        {
-            if(isset(self::$arr_hier[$key]))
-            {
+        } else {
+            if (isset(self::$arr_hier[$key])) {
                 return self::$arr_hier[$key];
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
@@ -114,30 +100,26 @@ class Category
 
     public static function isEmpty()
     {
-        if(array_key_exists('/', self::$arr_hier))
-        {
+        if (array_key_exists('/', self::$arr_hier)) {
             //Il y a toujours la catégorie racine
-            return count(self::$arr_hier) == 1; 
+            return count(self::$arr_hier) == 1;
         }
-        
-        return count(self::$arr_hier) == 0; 
+
+        return count(self::$arr_hier) == 0;
     }
-    
+
     protected static function getTreeRecursive(Category $obj_cat, $arr_tree)
     {
         $arr_path = $obj_cat->getNode();
 
         $arr_original =& $arr_tree;
 
-        foreach ($arr_path as $str_node)
-        {
-            if (!array_key_exists($str_node, $arr_tree))
-            {
+        foreach ($arr_path as $str_node) {
+            if (!array_key_exists($str_node, $arr_tree)) {
                 $arr_tree[$str_node] = array();
             }
 
-            if ($str_node)
-            {
+            if ($str_node) {
                 $arr_tree =& $arr_tree[$str_node];
             }
         }
@@ -145,10 +127,9 @@ class Category
         return $arr_original;
     }
 
-
     /**
-     * Construit et retourne l’arbre hiérarchique des catégories. 
-     * 
+     * Construit et retourne l’arbre hiérarchique des catégories.
+     *
      * @static
      * @access public
      * @return array
@@ -157,8 +138,7 @@ class Category
     {
         $arr_tree = array();
 
-        foreach(self::$arr_hier as $obj_cat)
-        {
+        foreach (self::$arr_hier as $obj_cat) {
             $arr_prov = $obj_cat->getNode();
 
             if(count($arr_prov) == 0) continue;
@@ -171,18 +151,17 @@ class Category
 
     /**
      * Pour un niveau demandé, retourne les IDs de fichiers correspondants.
-     * 
-     * @param integer $int_level 
+     *
+     * @param  integer $int_level
      * @static
      * @access public
-     * @return  array
+     * @return array
      */
     public static function getFileIdsAtLevel($int_level = null)
     {
         $arr_tree_id = array();
 
-        foreach(self::$arr_hier as $obj_cat)
-        {
+        foreach (self::$arr_hier as $obj_cat) {
             $arr_prov = $obj_cat->getNode();
 
             if(count($arr_prov) == 0) continue;
@@ -190,19 +169,15 @@ class Category
             // On stocke par niveau
             $int_rank = count($arr_prov) - 1;
 
-            if(is_integer($int_level) && $int_level < count($arr_prov))
-            {
+            if (is_integer($int_level) && $int_level < count($arr_prov)) {
                 $int_rank = $int_level;
             }
 
             $key = implode('/', array_slice($arr_prov, 0, $int_rank + 1));
 
-            if(!isset($arr_tree_id[$key]))
-            {
+            if (!isset($arr_tree_id[$key])) {
                 $arr_tree_id[$key] = $obj_cat->getFileIds();
-            }
-            else
-            {
+            } else {
                 $arr_tree_id[$key] = array_merge($arr_tree_id[$key], $obj_cat->getFileIds());
             }
         }
@@ -213,8 +188,7 @@ class Category
     public static function set($str_path)
     {
         // Si un chemin de catégorie existe, créer et ajouter cette catégorie.
-        if($str_path. Path::getDirectorySeparator() == Path::getSrcPost())
-        {
+        if ($str_path. Path::getDirectorySeparator() == Path::getSrcPost()) {
             $str_path = Path::getDirectorySeparator();
         }
 
@@ -224,13 +198,12 @@ class Category
         return self::$arr_hier[$cat->getSlug()];
     }
 
-
     /**
      * Ajoute la catégorie instanciée à la liste des autres catégories.
      *
-     * Cette méthode stocke l’instanciation courante dans une liste statique de 
-     * la classe Category. 
-     * 
+     * Cette méthode stocke l’instanciation courante dans une liste statique de
+     * la classe Category.
+     *
      * @access public
      * @return void
      */
@@ -240,30 +213,24 @@ class Category
         //var_dump($this->getNode());
         //var_dump($this->getSlug());
 
-        if(!isset(self::$arr_hier[$this->getSlug()]))
-        {
+        if (!isset(self::$arr_hier[$this->getSlug()])) {
             self::$arr_hier[$this->getSlug()] = $this;
         }
     }
 
-
-
-
     /**
-     * Ajoute l’ID d’un Post à la liste de l’objet Category. 
-     * 
-     * @param integer $int_id 
+     * Ajoute l’ID d’un Post à la liste de l’objet Category.
+     *
+     * @param  integer $int_id
      * @access public
      * @return void
      */
     public function addId($int_id)
     {
-        if($int_id > 0)
-        {
+        if ($int_id > 0) {
             $this->arr_ids[] = $int_id;
         }
     }
-
 
     /**
      * Donne le nombre d’ID Post stockés pour l’objet Category.
@@ -286,9 +253,9 @@ class Category
     }
 
     /**
-     * Retourne l’arborescence de la catégorie actuelle. 
-     * 
-     * Donne un tableau retournant l’arborescence de la catégorie, avec en 
+     * Retourne l’arborescence de la catégorie actuelle.
+     *
+     * Donne un tableau retournant l’arborescence de la catégorie, avec en
      * premier les parents et à la fin les enfants.
      *
      * @access public
@@ -301,7 +268,7 @@ class Category
 
     /**
      * ID des fichiers Post de cette catégorie.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -311,21 +278,17 @@ class Category
     }
 
     /**
-     * Retourne le slug propre à cette catégorie 
-     * 
+     * Retourne le slug propre à cette catégorie
+     *
      * @access public
      * @return string
      */
     public function getSlug()
     {
-        if(is_null($this->str_slug))
-        {
-            if(count($this->arr_node))
-            {
+        if (is_null($this->str_slug)) {
+            if (count($this->arr_node)) {
                 $this->str_slug = implode('/', $this->arr_node);
-            }
-            else
-            {
+            } else {
                 $this->str_slug = '/';
             }
         }
@@ -335,28 +298,21 @@ class Category
 
     public function getRootParent()
     {
-        if(isset($this->arr_node[0]))
-        {
+        if (isset($this->arr_node[0])) {
             return new self($this->arr_node[0]);
-        }
-        else
-        {
+        } else {
             return $this;
         }
     }
 
-    
     public function getUrl($full = false)
     {
         $url = new Permalink(Config::getInstance()->getPermalinkCategory());
         $url->setTitle($this->getSlug());
 
-        if($url->isOk())
-        {
+        if ($url->isOk()) {
             return $url->getUrl($full);
-        }
-        else
-        {
+        } else {
             throw new \Exception('Issue occured while building category’s URL!');
         }
     }

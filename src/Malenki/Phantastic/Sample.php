@@ -22,21 +22,19 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 namespace Malenki\Phantastic;
 
 /**
- * Petit bloc de texte pouvant être appelé n’importe où dans un template. 
- * 
+ * Petit bloc de texte pouvant être appelé n’importe où dans un template.
+ *
  * @copyright 2012 Michel Petit
- * @author Michel Petit <petit.michel@gmail.com> 
+ * @author Michel Petit <petit.michel@gmail.com>
  */
 class Sample
 {
     protected static $arr_samples = array();
     protected $str_name;
     protected $str_content;
-
 
     public function __construct($str_name)
     {
@@ -51,7 +49,6 @@ class Sample
         return array_key_exists($str_name, self::$arr_samples);
     }
 
-
     public static function isEmpty()
     {
         return count(self::$arr_samples) == 0;
@@ -61,14 +58,13 @@ class Sample
     {
         $sample = new self($str_name);
         $sample->addToCol();
+
         return self::$arr_samples[$sample->getName()];
     }
 
-
     public function addToCol()
     {
-        if(!isset(self::$arr_samples[$this->getName()]))
-        {
+        if (!isset(self::$arr_samples[$this->getName()])) {
             self::$arr_samples[$this->getName()] = $this;
         }
     }
@@ -82,19 +78,16 @@ class Sample
                 $this->str_name
             )
         );
-        
+
         $markdown = new \dflydev\markdown\MarkdownExtraParser();
 
         $this->str_content = $markdown->transformMarkdown($str_text);
     }
 
-    
     public static function get($str_name)
     {
         return self::$arr_samples[$str_name];
     }
-
-
 
     /**
      * @return string
@@ -112,6 +105,4 @@ class Sample
         return $this->str_content;
     }
 
-
 }
-
